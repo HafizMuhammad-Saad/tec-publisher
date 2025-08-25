@@ -17,6 +17,8 @@ const Checkout = () => {
     address: ''
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [showWhatsappModal, setShowWhatsappModal] = useState(false);
+const [whatsappUrl, setWhatsappUrl] = useState("");
 
     // const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -84,10 +86,14 @@ ${cart.map(item => `• ${item.title} (Qty: ${item.quantity}) - ${formatPrice(it
 
 I have attached the payment screenshot. Please confirm my order. Thank you!`;
 
-      window.open(`https://wa.me/923062472977?text=${encodeURIComponent(message)}`, '_blank');
+      const url = `https://wa.me/923062472977?text=${encodeURIComponent(message)}`;
+      setWhatsappUrl(url);
+
+      // 3) Show modal with button
+    setShowWhatsappModal(true);
       
-      toast.success('WhatsApp opened! Please send the screenshot to complete your order.');
-      navigate('/cart');
+    toast.success('Order saved! Please click the button to continue on WhatsApp.');
+      // navigate('/cart');
     } catch (error) {
       console.error(error);
       toast.error('Failed to save order. Please try again.');
@@ -295,6 +301,7 @@ I have attached the payment screenshot. Please confirm my order. Thank you!`;
             {isLoading ? (
               <div className="flex items-center justify-center">
                 <LoaderCircle className="animate-spin h-5 w-5 text-primary-500" />
+                    <span>Loading, please wait...</span>
               </div>
             ) : (
                   <button
@@ -345,6 +352,25 @@ I have attached the payment screenshot. Please confirm my order. Thank you!`;
           </div>
         </div>
       </div>
+
+      {showWhatsappModal && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white p-6 rounded shadow-lg text-center">
+      <h2 className="text-lg font-semibold mb-4">Order Saved ✅</h2>
+      <p className="mb-4">Click below to open WhatsApp and send your payment confirmation.</p>
+      <button
+        onClick={() => {
+          window.open(whatsappUrl, "_blank");
+          setShowWhatsappModal(false);
+          navigate("/"); // optional redirect after
+        }}
+        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+      >
+        Open WhatsApp
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 };

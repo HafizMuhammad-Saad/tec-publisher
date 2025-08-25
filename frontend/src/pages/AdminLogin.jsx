@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAdmin } from '../contexts/AdminContext';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { LoaderCircle } from 'lucide-react';
 
 const AdminLogin = () => {
   const { login } = useAdmin();
@@ -64,6 +65,7 @@ const AdminLogin = () => {
               isLoading ? (
                 <div className="flex items-center justify-center">
                   <LoaderCircle className="animate-spin h-5 w-5 text-primary-500" />
+                      <span>Loading, please wait...</span>
                 </div>
               ) : (
                 <button
