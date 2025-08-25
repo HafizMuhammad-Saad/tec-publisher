@@ -184,12 +184,9 @@ const OrderDetail = () => {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Shipping</span>
-                    <span>{order.pricing.shipping === 0 ? 'Free' : formatPrice(order.pricing.shipping)}</span>
+                    <span>{formatPrice(order.pricing.shipping)}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Tax</span>
-                    <span>{formatPrice(order.pricing.tax)}</span>
-                  </div>
+                 
                   <div className="flex justify-between text-lg font-semibold pt-2 border-t">
                     <span>Total</span>
                     <span className="text-primary-600">{formatPrice(order.pricing.total)}</span>

@@ -8,9 +8,11 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const result = await login(email, password);
     if (result.success) {
       toast.success('Logged in successfully!');
@@ -58,12 +60,21 @@ const AdminLogin = () => {
           </div>
 
           <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-            >
-              Sign in
-            </button>
+            {
+              isLoading ? (
+                <div className="flex items-center justify-center">
+                  <LoaderCircle className="animate-spin h-5 w-5 text-primary-500" />
+                </div>
+              ) : (
+                <button
+                  type="submit"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                >
+                  Sign in
+                </button>
+              )
+            }
+          
           </div>
         </form>
       </div>

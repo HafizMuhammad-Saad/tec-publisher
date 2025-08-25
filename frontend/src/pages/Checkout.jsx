@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, Upload, MessageCircle, ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react';
+import { Lock, Upload, MessageCircle, ArrowLeft, CheckCircle, AlertCircle, LoaderCircle } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { formatPrice } from '../utils/format';
 import toast from 'react-hot-toast';
@@ -16,6 +16,7 @@ const Checkout = () => {
     phone: '',
     address: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
 
     // const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -54,6 +55,8 @@ const Checkout = () => {
     }
 
     try {
+      setIsLoading(true);
+
       const formData = new FormData();
       formData.append('orderId', orderId);
       formData.append('customerInfo', JSON.stringify(customerInfo));
@@ -91,7 +94,7 @@ I have attached the payment screenshot. Please confirm my order. Thank you!`;
     } finally {
       setPaymentScreenshot(null);
       setCustomerInfo({ name: '', email: '', phone: '', address: '' });
-      
+      setIsLoading(false);
     }
   };
 
@@ -250,12 +253,12 @@ I have attached the payment screenshot. Please confirm my order. Thank you!`;
                     </div>
                     <span className="font-semibold text-gray-900">JazzCash</span>
                   </div>
-                  <p className="text-gray-700">Number: <span className="font-mono font-bold">0300-XXXXXXX</span></p>
-                  <p className="text-gray-700">Account Holder: <span className="font-semibold">Your Name</span></p>
+                  <p className="text-gray-700">Number: <span className="font-mono font-bold">03302338877</span></p>
+                  <p className="text-gray-700">Account Holder: <span className="font-semibold">Tec Consultency</span></p>
                 </div>
                 
                 {/* Easypaisa */}
-                <div className="bg-white p-3 rounded border border-green-300">
+                {/* <div className="bg-white p-3 rounded border border-green-300">
                   <div className="flex items-center mb-2">
                     <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
                       <span className="text-white text-xs font-bold">EP</span>
@@ -264,7 +267,7 @@ I have attached the payment screenshot. Please confirm my order. Thank you!`;
                   </div>
                   <p className="text-gray-700">Number: <span className="font-mono font-bold">0321-XXXXXXX</span></p>
                   <p className="text-gray-700">Account Holder: <span className="font-semibold">Your Name</span></p>
-                </div>
+                </div> */}
               </div>
               
               <div className="mt-3 p-2 bg-yellow-100 border border-yellow-300 rounded">
@@ -289,7 +292,12 @@ I have attached the payment screenshot. Please confirm my order. Thank you!`;
             </div>
 
             {/* Send on WhatsApp Button */}
-            <button
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <LoaderCircle className="animate-spin h-5 w-5 text-primary-500" />
+              </div>
+            ) : (
+                  <button
               onClick={handleWhatsAppClick}
               className={`w-full py-3 px-4 text-white rounded-lg font-medium transition-colors duration-200 ${
                 !paymentScreenshot || !customerInfo.name || !customerInfo.phone || !customerInfo.address
@@ -297,11 +305,12 @@ I have attached the payment screenshot. Please confirm my order. Thank you!`;
                   : 'bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
               }`}
               disabled={!paymentScreenshot || !customerInfo.name || !customerInfo.phone || !customerInfo.address}
+
             >
               <MessageCircle className="w-5 h-5 inline mr-2" />
               Send Screenshot on WhatsApp
             </button>
-
+            )}
             {/* Status Messages */}
             <div className="mt-2 space-y-1">
               {!paymentScreenshot && (
