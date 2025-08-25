@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Menu, X, Search } from 'lucide-react';
+import { ShoppingBag, Menu, X, LogIn, AmpersandIcon } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 
 const Header = () => {
@@ -59,6 +59,13 @@ const Header = () => {
                   {cartItemsCount}
                 </span>
               )}
+            </Link>
+            <Link to='/admin'>
+              <span className="sr-only">Admin</span>
+              <span className='flex items-center'>
+                <LogIn className="w-6 h-6 mr-2" />
+                Admin Login
+              </span>
             </Link>
 
             {/* Mobile menu button */}
