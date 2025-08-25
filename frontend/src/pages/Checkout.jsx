@@ -17,7 +17,7 @@ const Checkout = () => {
     address: ''
   });
 
-    const API_BASE = import.meta.env.VITE_API_BASE;
+    // const API_BASE = import.meta.env.VITE_API_BASE;
 
   const [orderId] = useState(() => 'ORD-' + Date.now().toString().slice(-8));
 

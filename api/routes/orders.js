@@ -2,8 +2,15 @@ import express from 'express';
 import Order from '../models/Order.js';
 import upload from '../middleware/upload.js';
 import { authenticateToken } from '../middleware/auth.js';
+import cloudinary from "../config/cloudinary.js";
 
 const router = express.Router();
+
+// tiny helper: safe JSON parse for fields sent as strings in FormData
+const safeParse = (v) => {
+  if (typeof v !== "string") return v;
+  try { return JSON.parse(v); } catch { return v; }
+};
 
 // Create new order (public route)
 router.post('/', upload.single('paymentScreenshot'), async (req, res) => {
@@ -16,13 +23,23 @@ router.post('/', upload.single('paymentScreenshot'), async (req, res) => {
     } = req.body;
 
     // Parse JSON strings from FormData
-    const parsedCustomerInfo = typeof customerInfo === 'string' ? JSON.parse(customerInfo) : customerInfo;
-    const parsedItems = typeof items === 'string' ? JSON.parse(items) : items;
-    const parsedPricing = typeof pricing === 'string' ? JSON.parse(pricing) : pricing;
+     const parsedCustomerInfo = safeParse(customerInfo);
+    const parsedItems       = safeParse(items);
+    const parsedPricing     = safeParse(pricing);
 
     if (!req.file) {
       return res.status(400).json({ message: 'Payment screenshot is required' });
     }
+
+     // 1) Upload the in-memory buffer to Cloudinary
+    const cloudinaryResult = await new Promise((resolve, reject) => {
+      // put uploads in a folder named "orders" (change if you like)
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: "orders", resource_type: "image" },
+        (err, result) => (err ? reject(err) : resolve(result))
+      );
+      stream.end(req.file.buffer);
+    });
 
     // Create order
     const order = new Order({
@@ -30,7 +47,7 @@ router.post('/', upload.single('paymentScreenshot'), async (req, res) => {
       customerInfo: parsedCustomerInfo,
       items: parsedItems,
       pricing: parsedPricing,
-      paymentScreenshot: req.file.filename,
+      paymentScreenshot: cloudinaryResult.secure_url, // ✅ store URL
       status: 'pending'
     });
 
@@ -39,11 +56,16 @@ router.post('/', upload.single('paymentScreenshot'), async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'Order created successfully',
-      orderId: order.orderId
+      orderId: order.orderId,
+      screenshotUrl: cloudinaryResult.secure_url
+
     });
 
   } catch (error) {
     console.error('Error creating order:', error);
+     // common helpful messages:
+    // - "File too large" if >5MB
+    // - Cloudinary credential errors if env vars are wrong
     res.status(500).json({ 
       success: false,
       message: 'Failed to create order',
