@@ -205,7 +205,7 @@ const OrderDetail = () => {
             <div className="bg-white rounded-lg shadow p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Payment Screenshot</h3>
               <img
-                src={`/api/uploads/payment-screenshots/${order.paymentScreenshot}`}
+                src={order.paymentScreenshot}
                 alt="Payment Screenshot"
                 className="w-full rounded-lg border"
               />
