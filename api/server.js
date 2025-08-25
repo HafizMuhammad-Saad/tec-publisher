@@ -93,11 +93,11 @@ app.use((error, req, res, next) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+// app.listen(PORT, () => {
   
-    console.log(`Server is running in development mode on http://localhost:${PORT}`);
-});
+//     console.log(`Server is running in development mode on http://localhost:${PORT}`);
+// });
 
-// export default app;
-// export const handler = serverless(app);
+export default app;
+export const handler = serverless(app);
 
