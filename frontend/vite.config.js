@@ -3,10 +3,9 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
- build: {
+  appType: 'spa',
+  build: {
     outDir: 'dist',
   },
-  server: {
-    historyApiFallback: true,
-  },
+  // Ensures SPA fallback works correctly
 })
