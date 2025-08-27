@@ -60,15 +60,7 @@ const Header = () => {
                 </span>
               )}
             </Link>
-            <Link to='/admin' className='inline-flex items-center bg-primary-50 hover:bg-primary-100 text-primary-700 hover:text-primary-900 font-medium py-2 px-4 rounded-lg border border-primary-200 hover:border-primary-300 transition-all duration-200 ease-in-out transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50 shadow-sm hover:shadow-md'>
-              <span class="sr-only">Admin</span>
-  <span class="flex items-center">
-    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
-    </svg>
-    Admin Login
-  </span>
-            </Link>
+            
 
             {/* Mobile menu button */}
             <button
