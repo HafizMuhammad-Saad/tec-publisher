@@ -86,7 +86,7 @@ ${cart.map(item => `• ${item.title} (Qty: ${item.quantity}) - ${formatPrice(it
 
 I have attached the payment screenshot. Please confirm my order. Thank you!`;
 
-      const url = `https://wa.me/923452739963?text=${encodeURIComponent(message)}`;
+      const url = `https://wa.me/923302338877?text=${encodeURIComponent(message)}`;
       setWhatsappUrl(url);
 
       // 3) Show modal with button

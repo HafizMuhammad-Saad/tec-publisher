@@ -174,8 +174,6 @@ const ProductDetail = () => {
   <ul className="space-y-2 text-gray-700">
     {[
       'High quality materials',
-      'Free shipping on orders over $50',
-      '30-day return policy',
       'Customer satisfaction guaranteed',
     ].map((feature, idx) => (
       <li key={idx} className="flex items-center">

@@ -24,8 +24,11 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-md w-full space-y-8">
+          <div className="flex justify-center">
+  <img className="h-12 w-auto" src="/logo.png" alt="Tec Consultancy" />
+</div>
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Admin Login
@@ -35,6 +38,7 @@ const AdminLogin = () => {
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="email" className="sr-only">Email address</label>
+              
               <input 
                 id="email" 
                 name="email" 
@@ -63,12 +67,13 @@ const AdminLogin = () => {
           <div>
             {
               isLoading ? (
-                <div className="flex items-center justify-center">
-                  <LoaderCircle className="animate-spin h-5 w-5 text-primary-500" />
-                      <span>Loading, please wait...</span>
-                </div>
+                <div className="flex items-center justify-center w-full py-3 px-4 bg-primary-100 text-primary-600 rounded-lg">
+                                <LoaderCircle className="animate-spin h-5 w-5 mr-2" />
+                                    <span className='text-sm font-medium'>Loading, please wait...</span>
+                              </div>
               ) : (
                 <button
+                disabled={isLoading}
                   type="submit"
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                 >
