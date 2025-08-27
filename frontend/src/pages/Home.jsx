@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShoppingBag, Star, Users, Shield } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Star, Users, Shield, LockOpen } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/LoadingSkeleton';
 import { fetchProducts } from '../data/products';
@@ -30,20 +30,16 @@ const Home = () => {
 
   const features = [
   {
-    icon: ShoppingBag,
-    title: 'Free Shipping',
-    description: 'Enjoy free delivery on all orders over $50 — straight to your bookshelf.'
+    icon: LockOpen,
+    title: 'LMS Access',
+    description: 'complete LMS Access.'
   },
   {
     icon: Star,
     title: 'Curated Selections',
     description: 'Hand-picked titles chosen for their quality, storytelling, and timeless appeal.'
   },
-  {
-    icon: Users,
-    title: 'Librarian Support',
-    description: 'Our team is here 24/7 to help you find your next favorite read.'
-  },
+
   {
     icon: Shield,
     title: 'Secure Checkout',
@@ -65,7 +61,7 @@ const Home = () => {
         We’re committed to making your reading experience unforgettable
       </p>
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {features.map((feature, index) => (
         <div
           key={index}

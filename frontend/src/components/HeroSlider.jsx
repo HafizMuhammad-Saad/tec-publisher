@@ -7,8 +7,8 @@ const HeroSlider = () => {
 
   const slides = [
     {
-      image: "/world-book-day-celebration-leaderboard-banner/10519426.jpg",
-      title: "World Book Day",
+      image: "/slider.jpeg",
+      title: "tec Publication",
       description: "Interactive learning books for young minds",
       ctaText: "Explore Series",
       ctaLink: "/products?category=brainy-builder"

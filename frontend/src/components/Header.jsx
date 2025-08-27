@@ -65,7 +65,7 @@ const Header = () => {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-md text-primary-100 hover:text-white hover:bg-primary-700 transition-colors duration-200"
+              className="md:hidden p-2 rounded-md text-primary-600 hover:text-white hover:bg-primary-700 transition-colors duration-200"
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -88,7 +88,7 @@ const Header = () => {
                   className={`px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
                     isActive(item.href)
                       ? 'text-white bg-primary-700'
-                      : 'text-primary-100 hover:text-white hover:bg-primary-700'
+                      : 'text-primary-700 hover:text-white hover:bg-primary-700'
                   }`}
                 >
                   {item.name}

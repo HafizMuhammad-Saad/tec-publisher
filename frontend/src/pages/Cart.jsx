@@ -68,7 +68,7 @@ const Cart = () => {
               <div className="divide-y divide-gray-200">
                 {cart.map((item) => (
                   <div key={item.id} className="p-6">
-                    <div className="flex items-start space-x-4">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:space-x-4 space-y-4 sm:space-y-0">
                       <div className="flex-shrink-0">
                         <img
                           src={item.image}
@@ -76,7 +76,7 @@ const Cart = () => {
                           className="w-20 h-20 object-contain rounded-lg"
                         />
                       </div>
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 break-words">
                         <h3 className="text-lg font-medium text-gray-900 mb-1">
                           {item.title}
                         </h3>
@@ -104,6 +104,7 @@ const Cart = () => {
                           <Plus className="w-4 h-4" />
                         </button>
                       </div>
+
                       <div className="text-right">
                         <p className="text-lg font-semibold text-gray-900 mb-2">
                           {formatPrice((item.discountedPrice ? item.discountedPrice : item.price) * item.quantity)}
@@ -142,12 +143,7 @@ const Cart = () => {
                   </span>
                 </div>
                 
-                {/* <div className="flex justify-between">
-                  <span className="text-gray-600">Tax</span>
-                  <span className="font-medium">
-                    {formatPrice(getCartTotal() * 0.08)}
-                  </span>
-                </div> */}
+            
                 
                 <hr className="my-4" />
                 
@@ -161,13 +157,7 @@ const Cart = () => {
                 </div>
               </div>
 
-              {/* {getCartTotal() < 50 && (
-                <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <p className="text-sm text-yellow-800">
-                    Add {formatPrice(50 - getCartTotal())} more for free shipping!
-                  </p>
-                </div>
-              )} */}
+
 
               <button
                 onClick={handleCheckout}
