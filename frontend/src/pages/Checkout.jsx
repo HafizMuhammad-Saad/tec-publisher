@@ -86,7 +86,7 @@ ${cart.map(item => `• ${item.title} (Qty: ${item.quantity}) - ${formatPrice(it
 
 I have attached the payment screenshot. Please confirm my order. Thank you!`;
 
-      const url = `https://wa.me/923062472977?text=${encodeURIComponent(message)}`;
+      const url = `https://wa.me/923452739963?text=${encodeURIComponent(message)}`;
       setWhatsappUrl(url);
 
       // 3) Show modal with button
@@ -149,7 +149,7 @@ I have attached the payment screenshot. Please confirm my order. Thank you!`;
                 <span className="font-medium">{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Shipping</span>
+                <span className="text-gray-600">Delivery Charge</span>
                 <span className="font-medium">
                   {shipping}
                 </span>
@@ -260,7 +260,7 @@ I have attached the payment screenshot. Please confirm my order. Thank you!`;
                     <span className="font-semibold text-gray-900">JazzCash</span>
                   </div>
                   <p className="text-gray-700">Number: <span className="font-mono font-bold">03302338877</span></p>
-                  <p className="text-gray-700">Account Holder: <span className="font-semibold">Tec Consultency</span></p>
+                  <p className="text-gray-700">Account Holder: <span className="font-semibold">Tec Consultancy</span></p>
                 </div>
                 
                 {/* Easypaisa */}
@@ -299,23 +299,25 @@ I have attached the payment screenshot. Please confirm my order. Thank you!`;
 
             {/* Send on WhatsApp Button */}
             {isLoading ? (
-              <div className="flex items-center justify-center">
-                <LoaderCircle className="animate-spin h-5 w-5 text-primary-500" />
-                    <span>Loading, please wait...</span>
+              <div className="flex items-center justify-center w-full py-3 px-4 bg-primary-100 text-primary-600 rounded-lg">
+                <LoaderCircle className="animate-spin h-5 w-5 mr-2" />
+                    <span className='text-sm font-medium'>Loading, please wait...</span>
               </div>
             ) : (
-                  <button
-              onClick={handleWhatsAppClick}
-              className={`w-full py-3 px-4 text-white rounded-lg font-medium transition-colors duration-200 ${
-                !paymentScreenshot || !customerInfo.name || !customerInfo.phone || !customerInfo.address
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
-              }`}
-              disabled={!paymentScreenshot || !customerInfo.name || !customerInfo.phone || !customerInfo.address}
-
-            >
-              <MessageCircle className="w-5 h-5 inline mr-2" />
-              Send Screenshot on WhatsApp
+                   <button
+    onClick={handleWhatsAppClick}
+    className={`
+      w-full py-3 px-4 flex items-center justify-center text-white rounded-lg font-medium transition-colors duration-200
+      ${
+        !paymentScreenshot || !customerInfo.name || !customerInfo.phone || !customerInfo.address
+          ? 'bg-gray-400 cursor-not-allowed'
+          : 'bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
+      }
+    `}
+    disabled={!paymentScreenshot || !customerInfo.name || !customerInfo.phone || !customerInfo.address}
+  >
+              <MessageCircle className="w-5 h-5 mr-2" />
+    <span>Send Message on WhatsApp</span>
             </button>
             )}
             {/* Status Messages */}
