@@ -49,6 +49,7 @@ const ProductCard = ({ product }) => {
                   <img
                     src={product.image}
                     alt={product.title}
+                    loading='lazy'
                     className="w-full h-full object-contain object-center bg-primary-50 rounded-lg shadow-md"
                   />
                 )
