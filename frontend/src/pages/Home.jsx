@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ShoppingBag, Star, Users, Shield, LockOpen } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Star, Users, Shield, LockOpen, PencilRuler, Globe2, GlobeIcon, UserCircleIcon, UserCircle2, Users2 } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/LoadingSkeleton';
 import { fetchProducts } from '../data/products';
@@ -31,19 +31,24 @@ const Home = () => {
   const features = [
   {
     icon: LockOpen,
-    title: 'LMS Access',
-    description: 'complete LMS Access.'
+    title: 'Digital App Access',
+    description: 'Read your favorite books anytime, anywhere with our seamless digital app.'
   },
   {
-    icon: Star,
-    title: 'Curated Selections',
-    description: 'Hand-picked titles chosen for their quality, storytelling, and timeless appeal.'
+    icon: PencilRuler, // or a writing-related icon
+    title: 'Manuscript Feedback & Coaching',
+    description: 'Get in-depth editorial guidance to shape your manuscript into a market-ready book with clear voice and structure.'
   },
 
   {
-    icon: Shield,
-    title: 'Secure Checkout',
-    description: 'Your book-buying journey is safe with our encrypted payment process.'
+    icon: GlobeIcon, // for reach/distribution
+    title: 'Global Distribution Support',
+    description: 'We help place your book on major platforms like Amazon, IngramSpark, and more — with professional listings.'
+  },
+  {
+    icon: Users2, // for community aspect
+    title: 'Community & Launch Support',
+    description: 'Access author groups, launch strategies, and post-publish coaching to ensure your book gets the attention it deserves.'
   }
 ];
 
@@ -53,15 +58,15 @@ const Home = () => {
       <HeroSlider />
 
       {/* Features Section */}
-      <section className="py-16">
+      <section className="py-16 bg-gradient-to-r from-primary-50 to-white">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="text-center mb-12">
-      <h2 className="text-3xl font-bold text-primary-800 mb-4">Why Choose Us?</h2>
-      <p className="text-lg text-gray-600">
-        We’re committed to making your reading experience unforgettable
-      </p>
-    </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <h2 className="text-3xl font-bold text-primary-800 mb-4">Your Publishing Partner</h2>
+  <p className="text-lg text-gray-600">
+    We combine expert consultancy with premium publishing services to help authors succeed.
+  </p>
+</div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       {features.map((feature, index) => (
         <div
           key={index}
@@ -69,7 +74,7 @@ const Home = () => {
         >
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-500 text-white rounded-full mb-4 shadow-md">
             <feature.icon className="w-8 h-8" />
-          </div>
+          </div> 
           <h3 className="text-xl font-semibold text-primary-800 mb-2">{feature.title}</h3>
           <p className="text-gray-600">{feature.description}</p>
         </div>
