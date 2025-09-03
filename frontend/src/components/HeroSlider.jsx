@@ -14,14 +14,14 @@ const HeroSlider = () => {
       ctaLink: "/products?category=brainy-builder"
     },
     {
-      image: "/world-book-day-template-design/11646243.jpg",
+      image: "/depositphotos_820432580-stock-photo-school-supplies-arranged-lightbulb-shape.jpg",
       title: "World Book Day 2023",
       description: "Comprehensive math books for all grades",
       ctaText: "View Math Books",
       ctaLink: "/products?category=mathematics"
     },
     {
-      image: "/back-school-facebook-cover-banner-template/back_to_school_facebook_cover_banner_19.jpg",
+      image: "/pexels-magda-ehlers-pexels-1329302.jpg",
       title: "World Book Day 2023",
       description: "Comprehensive math books for all grades",
       ctaText: "View Math Books",
