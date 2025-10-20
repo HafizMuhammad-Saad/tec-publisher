@@ -58,7 +58,7 @@ const Home = () => {
       <HeroSlider />
 
       {/* Features Section */}
-      <section className="py-16 bg-gradient-to-r from-primary-50 to-white">
+      {/* <section className="py-16 bg-gradient-to-r from-primary-50 to-white">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div className="text-center mb-12">
   <h2 className="text-3xl font-bold text-primary-800 mb-4">Your Publishing Partner</h2>
@@ -81,7 +81,7 @@ const Home = () => {
       ))}
     </div>
   </div>
-</section>
+</section> */}
 
       {/* Featured Products Section */}
       <section className="py-16">
