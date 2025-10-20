@@ -210,17 +210,17 @@ const ProductDetail = () => {
     {/* Left Arrow */}
     <button
       onClick={handlePrevImage}
-      className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-gray-200/80 p-2 rounded-full shadow hover:bg-gray-200 transition"
+      className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-rose-200/80 p-2 rounded-full shadow hover:bg-rose-200 transition"
     >
-      <ChevronLeft className="w-6 h-6 text-primary-600" />
+      <ChevronLeft className="w-6 h-6 text-gray-600" />
     </button>
 
     {/* Right Arrow */}
     <button
       onClick={handleNextImage}
-      className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-gray-200/80 p-2 rounded-full shadow hover:bg-gray-200 transition"
+      className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-rose-200/80 p-2 rounded-full shadow hover:bg-rose-200 transition"
     >
-      <ChevronRight className="w-6 h-6 text-primary-600" />
+      <ChevronRight className="w-6 h-6 text-gray-600" />
     </button>
   </div>
 

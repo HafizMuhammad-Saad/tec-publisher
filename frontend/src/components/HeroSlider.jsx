@@ -7,7 +7,7 @@ const HeroSlider = () => {
 
   const slides = [
     {
-      image: "/slider.jpeg",
+      image: "/banner-tec.jpg",
       title: "tec Publication",
       description: "Interactive learning books for young minds",
       ctaText: "Explore Series",
@@ -84,10 +84,10 @@ const HeroSlider = () => {
           >
             {/* Background Image */}
             <div
-              className="absolute inset-0 bg-contain bg-center bg-primary-50 bg-no-repeat"
+              className="absolute inset-0 bg-cover bg-center bg-primary-50 bg-no-repeat"
               style={{ backgroundImage: `url(${slide.image})` }}
             >
-              <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+              <div className="absolute inset-0 bg-black bg-opacity-10"></div>
             </div>
             
             {/* Content Overlay */}
