@@ -8,7 +8,7 @@ import { formatPrice, capitalizeFirst } from '../utils/format';
 import BookReader from '../components/BookReader';
 
 const parseFeatures = (featuresString) => {
-  const headerMatch = featuresString.match(/^(.*?):/);
+  const headerMatch = featuresString?.match(/^(.*?):/);
   const header = headerMatch ? headerMatch[1].trim() : 'Key Features';
 
   const featureList = featuresString
@@ -170,44 +170,27 @@ const ProductDetail = () => {
                 )
               }
                        </div> */}
-            {/* <div>
-              <div className="aspect-w-1 aspect-h-1 mb-4">
-                <img
-                  src={selectedImage}
-                  alt={product.title}
-                  className="w-full h-full object-contain bg-primary-50 rounded-lg shadow-md"
-                />
-              </div>
-
-              <div className="flex space-x-3 overflow-x-thin overflow-y-hidden" style={{
-                scrollbarWidth: 'thin',
-                msOverflowStyle: 'none',
-              }}>
-                {product.images.map((img, index) => (
-                  <img
-                    key={index}
-                    src={img}
-                    alt={`Thumbnail ${index + 1}`}
-                    onClick={() => setSelectedImage(img)}
-                    className={`w-20 h-20 object-cover rounded-md border-2 cursor-pointer transition-transform duration-200 ${selectedImage === img
-                        ? 'border-primary-500 scale-105'
-                        : 'border-transparent hover:scale-105'
-                      }`}
-                  />
-                ))}
-              </div>
-            </div> */}
+           
             {/* Product Image Carousel */}
-<div className="relative flex flex-col items-center">
-  {/* Main Image Container */}
+{/* <div className="relative flex flex-col items-center">
   <div className="relative w-full aspect-w-1 aspect-h-1">
-    <img
-      src={product.images[currentIndex]}
-      alt={`${product.title} image ${currentIndex + 1}`}
-      className="w-full h-full object-contain bg-primary-50 rounded-lg shadow-md"
-    />
+    {
+      product.images ? (
+        <img
+          src={product.images[currentIndex]}
+          alt={`${product.title} image ${currentIndex + 1}`}
+          className="w-full h-full object-contain bg-primary-50 rounded-lg shadow-md"
+        />
+      ) : (
+        <img
+          src={product.image}
+          alt={product.title}
+          className="w-full h-full object-contain object-center bg-primary-50 rounded-lg shadow-md"
+        />
+      )
+    }
 
-    {/* Left Arrow */}
+
     <button
       onClick={handlePrevImage}
       className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-rose-200/80 p-2 rounded-full shadow hover:bg-rose-200 transition"
@@ -215,7 +198,6 @@ const ProductDetail = () => {
       <ChevronLeft className="w-6 h-6 text-gray-600" />
     </button>
 
-    {/* Right Arrow */}
     <button
       onClick={handleNextImage}
       className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-rose-200/80 p-2 rounded-full shadow hover:bg-rose-200 transition"
@@ -224,9 +206,8 @@ const ProductDetail = () => {
     </button>
   </div>
 
-  {/* Small Indicators (optional) */}
   <div className="flex mt-3 space-x-2">
-    {product.images.map((_, index) => (
+    {product.images ? (product.images.map((_, index) => (
       <button
         key={index}
         onClick={() => setCurrentIndex(index)}
@@ -234,10 +215,67 @@ const ProductDetail = () => {
           currentIndex === index ? 'bg-primary-600' : 'bg-primary-200'
         }`}
       />
-    ))}
+    ))) : null}
   </div>
-</div>
+</div> */}
 
+<div className="relative flex flex-col items-center">
+  {/* Main Image Container */}
+  <div className="relative w-full aspect-w-1 aspect-h-1">
+    {/* ✅ CASE 1: Multiple images */}
+    {product.images && product.images.length > 1 ? (
+      <>
+        <img
+          src={product.images[currentIndex]}
+          alt={`${product.title} image ${currentIndex + 1}`}
+          className="w-full h-full object-contain bg-primary-50 rounded-lg shadow-md"
+        />
+
+        {/* Navigation Arrows */}
+        <button
+          onClick={handlePrevImage}
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 bg-rose-200/80 p-2 rounded-full shadow hover:bg-rose-200 transition"
+        >
+          <ChevronLeft className="w-6 h-6 text-gray-600" />
+        </button>
+        <button
+          onClick={handleNextImage}
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-rose-200/80 p-2 rounded-full shadow hover:bg-rose-200 transition"
+        >
+          <ChevronRight className="w-6 h-6 text-gray-600" />
+        </button>
+      </>
+    ) : (
+      /* ✅ CASE 2: Single image (either from images[0] or image) */
+      (() => {
+        const singleImage =
+          (product.images && product.images[0]) || product.image;
+        return singleImage ? (
+          <img
+            src={singleImage}
+            alt={product.title}
+            className="w-full h-full object-contain bg-primary-50 rounded-lg shadow-md"
+          />
+        ) : null;
+      })()
+    )}
+  </div>
+
+  {/* ✅ Dots / Indicators (only if multiple images) */}
+  {product.images && product.images.length > 1 && (
+    <div className="flex mt-3 space-x-2">
+      {product.images.map((_, index) => (
+        <button
+          key={index}
+          onClick={() => setCurrentIndex(index)}
+          className={`w-3 h-3 rounded-full ${
+            currentIndex === index ? 'bg-primary-600' : 'bg-primary-200'
+          }`}
+        />
+      ))}
+    </div>
+  )}
+</div>
 
 
 
@@ -255,7 +293,7 @@ const ProductDetail = () => {
 
 
               {/* Price */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <span className="text-3xl font-bold text-primary-600">
                   {formatPrice(product.discountedPrice ? product.discountedPrice : product.price)}
                 </span>
@@ -270,7 +308,7 @@ const ProductDetail = () => {
               </div> */}
 
               {/* Quantity Selector */}
-              <div className="mb-6">
+              <div className="mb-4">
                 <label className="block text-sm font-medium text-primary-700 mb-2">
                   Quantity
                 </label>
@@ -313,11 +351,11 @@ const ProductDetail = () => {
       </li>
   </ul>
 </div> */}
-              <div className="mt-8 pt-8 border-t border-gray-100">
+              <div className=" pt-8 border-t border-gray-100">
                 {/* Applied user requested font-serif and text/spacing from snippet, mapped primary-800 to indigo-800 */}
                 <h3 className="text-lg font-semibold text-rose-800 mb-4 font-serif">Product Features</h3>
                 {/* The FeatureList component handles the list formatting and parsing */}
-                <FeatureList features={product.features} />
+                <FeatureList features={product?.features} />
               </div>
             </div>
           </div>

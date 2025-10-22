@@ -11,8 +11,8 @@ const Header = () => {
 
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'Products', href: '/products' },
-    { name: 'Cart', href: '/cart' },
+    { name: 'Books', href: '/products' },
+    { name: 'Add to cart', href: '/cart' },
   ];
 
   const isActive = (path) => {

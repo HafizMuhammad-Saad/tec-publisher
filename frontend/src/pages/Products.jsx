@@ -166,7 +166,7 @@ const levels = [
               </div>
 
               {/* Categories Section */}
-              <div className="mb-6">
+              {/* <div className="mb-6">
                 <button
                   onClick={() => toggleSection('categories')}
                   className="flex items-center justify-between w-full text-left mb-3"
@@ -208,10 +208,10 @@ const levels = [
                     ))}
                   </div>
                 )}
-              </div>
+              </div> */}
 
               {/* Levels Section */}
-              <div className="mb-6">
+              {/* <div className="mb-6">
                 <button
                   onClick={() => toggleSection('levels')}
                   className="flex items-center justify-between w-full text-left mb-3"
@@ -251,7 +251,7 @@ const levels = [
                     ))}
                   </div>
                 )}
-              </div>
+              </div> */}
 
               {/* Sort Section */}
               <div>
