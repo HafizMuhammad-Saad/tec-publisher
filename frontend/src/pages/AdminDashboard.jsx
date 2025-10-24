@@ -5,6 +5,8 @@ import { formatPrice } from '../utils/format';
 import AdminHeader from '../components/AdminHeader';
 import toast from 'react-hot-toast';
 
+  const API_BASE = import.meta.env.VITE_API_BASE;
+
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
   const [stats, setStats] = useState({});
@@ -29,7 +31,7 @@ const AdminDashboard = () => {
         ...filters
       });
 
-      const response = await axios.get(`/api/orders?${params}`);
+      const response = await axios.get(`${API_BASE}/orders?${params}`);
       setOrders(response.data.orders);
       setTotalPages(response.data.totalPages);
     } catch (error) {
@@ -42,7 +44,7 @@ const AdminDashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get(`/api/orders/stats/overview`);
+      const response = await axios.get(`${API_BASE}/orders/stats/overview`);
       setStats(response.data.stats);
     } catch (error) {
       console.error('Error fetching stats:', error);

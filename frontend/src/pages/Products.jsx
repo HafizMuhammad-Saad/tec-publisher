@@ -8,6 +8,9 @@ import { normalizeLevel } from "../utils/normalize";
 import toast from "react-hot-toast";
 import axios from 'axios';
 
+  const API_BASE = import.meta.env.VITE_API_BASE;
+
+
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -29,7 +32,7 @@ const Products = () => {
     const loadData = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`/api/products`);
+        const { data } = await axios.get(`${API_BASE}/products`);
         setProducts(data);
         setFilteredProducts(data);
 

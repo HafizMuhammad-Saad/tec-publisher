@@ -33,7 +33,7 @@ export const AdminProvider = ({ children }) => {
     const checkAuth = async () => {
       if (token) {
         try {
-          const response = await axios.get(`/api/auth/me`);
+          const response = await axios.get(`${API_BASE}/auth/me`);
           setAdmin(response.data.admin);
         } catch (error) {
           console.error('Auth check failed:', error);
@@ -48,7 +48,7 @@ export const AdminProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post(`/api/auth/login`, {
+      const response = await axios.post(`${API_BASE}/auth/login`, {
         email,
         password
       });

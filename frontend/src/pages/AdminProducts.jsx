@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import AdminHeader from "../components/AdminHeader";
 import { formatPrice } from "../utils/format";
 
+  const API_BASE = import.meta.env.VITE_API_BASE;
+
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +15,7 @@ const AdminProducts = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`/api/products?search=${search}`);
+      const res = await axios.get(`${API_BASE}/products?search=${search}`);
       setProducts(res.data || []);
     } catch (err) {
       toast.error("Failed to load products");
@@ -27,7 +29,7 @@ const AdminProducts = () => {
   const deleteProduct = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
-      await axios.delete(`/api/products/${id}`);
+      await axios.delete(`${API_BASE}/products/${id}`);
       toast.success("Product deleted");
       fetchProducts();
     } catch (err) {

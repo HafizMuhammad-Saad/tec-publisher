@@ -8,6 +8,9 @@ import HeroSlider from '../components/HeroSlider';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+  const API_BASE = import.meta.env.VITE_API_BASE;
+
+
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +36,7 @@ const Home = () => {
   useEffect(() => {
     const loadFeatured = async () => {
       try {
-        const { data } = await axios.get(`/api/products`);
+        const { data } = await axios.get(`${API_BASE}/products`);
         
         
         const sets = data.filter((p) => p.category === "books set");

@@ -9,6 +9,9 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import BookReader from '../components/BookReader';
 
+  const API_BASE = import.meta.env.VITE_API_BASE;
+
+
 const parseFeatures = (featuresString) => {
   const headerMatch = featuresString?.match(/^(.*?):/);
   const header = headerMatch ? headerMatch[1].trim() : 'Key Features';
@@ -110,7 +113,7 @@ const ProductDetail = () => {
     const loadProduct = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`/api/products/${id}`);
+        const { data } = await axios.get(`${API_BASE}/products/${id}`);
         setProduct(data);
         setSelectedImage(data.images?.[0] || data.image);
       } catch (err) {

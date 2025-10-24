@@ -18,7 +18,7 @@ const OrderDetail = () => {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`/api/orders/${orderId}`);
+        const response = await axios.get(`${API_BASE}/orders/${orderId}`);
         setOrder(response.data.order);
         setStatus(response.data.order.status);
         setNotes(response.data.order.notes || '');
@@ -36,7 +36,7 @@ const OrderDetail = () => {
   const handleUpdateStatus = async () => {
     try {
       setUpdating(true);
-      await axios.patch(`/api/orders/${orderId}/status`, {
+      await axios.patch(`${API_BASE}/orders/${orderId}/status`, {
         status,
         notes
       });

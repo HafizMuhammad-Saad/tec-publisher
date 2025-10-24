@@ -20,7 +20,7 @@ const Checkout = () => {
   const [showWhatsappModal, setShowWhatsappModal] = useState(false);
 const [whatsappUrl, setWhatsappUrl] = useState("");
 
-    // const API_BASE = import.meta.env.VITE_API_BASE;
+  const API_BASE = import.meta.env.VITE_API_BASE;
 
   const [orderId] = useState(() => 'ORD-' + Date.now().toString().slice(-8));
 
@@ -66,7 +66,7 @@ const [whatsappUrl, setWhatsappUrl] = useState("");
       formData.append('pricing', JSON.stringify({ subtotal, shipping, total }));
       formData.append('paymentScreenshot', paymentScreenshot);
 
-      await axios.post(`/api/orders`, formData, {
+      await axios.post(`${API_BASE}/orders`, formData, {
         headers: {'Content-Type': 'multipart/form-data'}
       });
 

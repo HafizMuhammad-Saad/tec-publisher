@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import ImageUpload from "../components/ImageUpload";
 
+  const API_BASE = import.meta.env.VITE_API_BASE;
+
 const ProductForm = ({ mode = "create" }) => {
   const [product, setProduct] = useState({
     title: "",
@@ -24,7 +26,7 @@ const ProductForm = ({ mode = "create" }) => {
   useEffect(() => {
     if (mode === "edit" && id) {
       axios
-        .get(`/api/products/${id}`)
+        .get(`${API_BASE}/products/${id}`)
         .then((res) => {
             console.log(res.data);
           setProduct(res.data);
@@ -106,7 +108,7 @@ const ProductForm = ({ mode = "create" }) => {
     e.preventDefault();
     try {
       if (mode === "edit") {
-        await axios.put(`/api/products/${id}`, product);
+        await axios.put(`${API_BASE}/products/${id}`, product);
         toast.success("Product updated successfully");
       } else {
         await axios.post(" /api/products", product);
