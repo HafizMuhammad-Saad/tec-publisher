@@ -5,6 +5,8 @@ import { useCart } from '../contexts/CartContext';
 import { ProductDetailSkeleton } from '../components/LoadingSkeleton';
 import { fetchProductById } from '../data/products';
 import { formatPrice, capitalizeFirst } from '../utils/format';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 import BookReader from '../components/BookReader';
 
 const parseFeatures = (featuresString) => {
@@ -74,36 +76,57 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState(null);
 
+  // useEffect(() => {
+  //   const loadProduct = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const productData = await fetchProductById(parseInt(id));
+  //       if (productData) {
+  //         setProduct(productData);
+
+  //         if (productData) {
+  //           setProduct(productData);
+  //           setSelectedImage(productData.images ? productData.images[0] : productData.image);
+  //         }
+  //       } else {
+  //         setError('Product not found');
+  //       }
+  //     } catch (error) {
+  //       console.error('Error loading product:', error);
+  //       setError('Failed to load product');
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   if (id) {
+  //     loadProduct();
+  //   }
+
+
+  // }, [id]);
+
   useEffect(() => {
     const loadProduct = async () => {
       try {
         setLoading(true);
-        const productData = await fetchProductById(parseInt(id));
-        if (productData) {
-          setProduct(productData);
-
-          if (productData) {
-            setProduct(productData);
-            setSelectedImage(productData.images ? productData.images[0] : productData.image);
-          }
-        } else {
-          setError('Product not found');
-        }
-      } catch (error) {
-        console.error('Error loading product:', error);
-        setError('Failed to load product');
+        const { data } = await axios.get(`/api/products/${id}`);
+        setProduct(data);
+        setSelectedImage(data.images?.[0] || data.image);
+      } catch (err) {
+        console.error(err);
+        setError("Product not found");
+        toast.error("Failed to load product");
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) {
-      loadProduct();
-    }
-
-
+    if (id) loadProduct();
   }, [id]);
 
+  if (loading) return <div className="p-6 text-center">Loading...</div>;
+  if (error) return <div className="p-6 text-center text-red-500">{error}</div>;
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
       addToCart(product);
@@ -222,6 +245,11 @@ const ProductDetail = () => {
 <div className="relative flex flex-col items-center">
   {/* Main Image Container */}
   <div className="relative w-full aspect-w-1 aspect-h-1">
+      {product?.isbn ? (
+        <span className='absolute sm:top-4 sm:left-60 text-lg text-blue-800 left-4 top-0'>ISBN: {product.isbn}</span>
+      ) : (
+        <span className='absolute top-4 text-lg left-60 text-blue-800'>ISBN: N/A</span>
+      )}
     {/* ✅ CASE 1: Multiple images */}
     {product.images && product.images.length > 1 ? (
       <>

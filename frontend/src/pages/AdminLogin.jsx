@@ -13,13 +13,21 @@ const AdminLogin = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    const result = await login(email, password);
-    if (result.success) {
-      toast.success('Logged in successfully!');
-      navigate('/admin/dashboard');
-    } else {
-      toast.error(result.message);
+    try {
+      setIsLoading(true);
+      const result = await login(email, password);
+      if (result.success) {
+        toast.success('Logged in successfully!');
+        navigate('/admin/dashboard');
+      } else {
+        toast.error(result.message);
+      }
+      
+    } catch (error) {
+      console.log(error);
+      
+    } finally {
+      setIsLoading(false);
     }
   };
 

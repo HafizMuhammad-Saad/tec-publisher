@@ -5,29 +5,51 @@ import ProductCard from '../components/ProductCard';
 import { ProductGridSkeleton } from '../components/LoadingSkeleton';
 import { fetchProducts } from '../data/products';
 import HeroSlider from '../components/HeroSlider';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadFeaturedProducts = async () => {
-      try {
-        const products = await fetchProducts();
-        // get products that isSet true
-        const sets = products.filter(product => product.isSet === true);
+  // useEffect(() => {
+  //   const loadFeaturedProducts = async () => {
+  //     try {
+  //       const products = await fetchProducts();
+  //       // get products that isSet true
+  //       const sets = products.filter(product => product.isSet === true);
 
+  //       setFeaturedProducts(sets);
+  //     } catch (error) {
+  //       console.error('Error loading featured products:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   loadFeaturedProducts();
+  // }, []);
+
+  useEffect(() => {
+    const loadFeatured = async () => {
+      try {
+        const { data } = await axios.get(`/api/products`);
+        
+        
+        const sets = data.filter((p) => p.category === "books set");
+        console.log(sets);
+        
         setFeaturedProducts(sets);
       } catch (error) {
-        console.error('Error loading featured products:', error);
+        console.error("Error loading featured:", error);
+        toast.error("Failed to load featured products");
       } finally {
         setLoading(false);
       }
     };
 
-    loadFeaturedProducts();
+    loadFeatured();
   }, []);
-
   const features = [
   {
     icon: LockOpen,
@@ -97,7 +119,7 @@ const Home = () => {
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {featuredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard key={product._id} product={product} />
                 ))}
               </div>
               <div className="text-center">

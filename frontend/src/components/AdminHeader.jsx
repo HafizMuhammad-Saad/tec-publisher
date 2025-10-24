@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAdmin } from '../contexts/AdminContext';
 import toast from 'react-hot-toast';
+import AdminProducts from '../pages/AdminProducts';
 
 const AdminHeader = () => {
   const { logout, admin } = useAdmin();
@@ -18,6 +19,7 @@ const AdminHeader = () => {
         <span className="mr-4">Welcome, {admin?.name}</span>
         <button onClick={handleLogout} className="bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded transition-colors duration-200">Logout</button>
       </div>
+      <Link to="/admin/products" className="bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded transition-colors duration-200">Products</Link>
     </div>
   );
 };

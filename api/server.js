@@ -2,9 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import fs from 'fs';
+
 import serverless from 'serverless-http';
 
 
@@ -12,6 +10,9 @@ import serverless from 'serverless-http';
 import connectDB from './config/database.js';
 import orderRoutes from './routes/orders.js';
 import authRoutes from './routes/auth.js';
+import productRoutes from './routes/products.js';
+import uploadRoutes from './routes/upload.js';
+
 
 // Load environment variables
 dotenv.config();
@@ -54,6 +55,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // API Routes
 app.use('/api/orders', orderRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/upload', uploadRoutes);
+
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

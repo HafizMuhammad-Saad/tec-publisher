@@ -5,6 +5,8 @@ import { ProductGridSkeleton } from '../components/LoadingSkeleton';
 import { fetchProducts, fetchCategories } from '../data/products';
 import { capitalizeFirst } from '../utils/format';
 import { normalizeLevel } from "../utils/normalize";
+import toast from "react-hot-toast";
+import axios from 'axios';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -20,18 +22,23 @@ const Products = () => {
     levels: true
   });
 
+   // Normalize level to make filtering case-insensitive
+  const normalizeLevel = (level) => level?.toLowerCase().replace(/\s+/g, "");
+
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [productsData, categoriesData] = await Promise.all([
-          fetchProducts(),
-          fetchCategories()
-        ]);
-        setProducts(productsData);
-        setFilteredProducts(productsData);
-        setCategories(categoriesData);
+        setLoading(true);
+        const { data } = await axios.get(`/api/products`);
+        setProducts(data);
+        setFilteredProducts(data);
+
+        // Extract unique categories dynamically
+        const uniqueCategories = [...new Set(data.map((p) => p.category))];
+        setCategories(uniqueCategories);
       } catch (error) {
-        console.error('Error loading data:', error);
+        console.error("Error loading products:", error);
+        toast.error("Failed to load products");
       } finally {
         setLoading(false);
       }
@@ -40,55 +47,115 @@ const Products = () => {
     loadData();
   }, []);
 
+  // Filter + Sort logic
   useEffect(() => {
     let filtered = [...products];
 
-    // Filter by category
-    if (selectedCategory !== 'all') {
-      filtered = filtered.filter(product => product.category === selectedCategory);
+    if (selectedCategory !== "all") {
+      filtered = filtered.filter((p) => p.category === selectedCategory);
     }
 
-    // Filter by level
-    if (selectedLevel !== 'all') {
-       filtered = filtered.filter(
-    (product) => normalizeLevel(product.level) === normalizeLevel(selectedLevel)
-  );
-    }
-
-    // Filter by search query
-    if (searchQuery) {
-      filtered = filtered.filter(product =>
-        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product?.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    if (selectedLevel !== "all") {
+      filtered = filtered.filter(
+        (p) => normalizeLevel(p.level) === normalizeLevel(selectedLevel)
       );
     }
 
-    // Sort products
+    if (searchQuery) {
+      filtered = filtered.filter(
+        (p) =>
+          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          p?.description?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
     switch (sortBy) {
-      case 'price-low-high':
+      case "price-low-high":
         filtered.sort((a, b) => a.price - b.price);
         break;
-      case 'price-high-low':
+      case "price-high-low":
         filtered.sort((a, b) => b.price - a.price);
         break;
-      case 'rating':
-        filtered.sort((a, b) => (b.rating?.rate || 0) - (a.rating?.rate || 0));
-        break;
-      case 'name':
+      case "name":
         filtered.sort((a, b) => a.title.localeCompare(b.title));
         break;
       default:
-        filtered.sort((a, b) => a.id - b.id);
+        break;
     }
 
     setFilteredProducts(filtered);
   }, [products, selectedCategory, selectedLevel, searchQuery, sortBy]);
 
+
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     try {
+  //       const [productsData, categoriesData] = await Promise.all([
+  //         fetchProducts(),
+  //         fetchCategories()
+  //       ]);
+  //       setProducts(productsData);
+  //       setFilteredProducts(productsData);
+  //       setCategories(categoriesData);
+  //     } catch (error) {
+  //       console.error('Error loading data:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   loadData();
+  // }, []);
+
+  // useEffect(() => {
+  //   let filtered = [...products];
+
+  //   // Filter by category
+  //   if (selectedCategory !== 'all') {
+  //     filtered = filtered.filter(product => product.category === selectedCategory);
+  //   }
+
+  //   // Filter by level
+  //   if (selectedLevel !== 'all') {
+  //      filtered = filtered.filter(
+  //   (product) => normalizeLevel(product.level) === normalizeLevel(selectedLevel)
+  // );
+  //   }
+
+  //   // Filter by search query
+  //   if (searchQuery) {
+  //     filtered = filtered.filter(product =>
+  //       product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       product?.description?.toLowerCase().includes(searchQuery.toLowerCase())
+  //     );
+  //   }
+
+  //   // Sort products
+  //   switch (sortBy) {
+  //     case 'price-low-high':
+  //       filtered.sort((a, b) => a.price - b.price);
+  //       break;
+  //     case 'price-high-low':
+  //       filtered.sort((a, b) => b.price - a.price);
+  //       break;
+  //     case 'rating':
+  //       filtered.sort((a, b) => (b.rating?.rate || 0) - (a.rating?.rate || 0));
+  //       break;
+  //     case 'name':
+  //       filtered.sort((a, b) => a.title.localeCompare(b.title));
+  //       break;
+  //     default:
+  //       filtered.sort((a, b) => a.id - b.id);
+  //   }
+
+  //   setFilteredProducts(filtered);
+  // }, [products, selectedCategory, selectedLevel, searchQuery, sortBy]);
+
   // Get unique levels from products
-const levels = [
-  "all",
-  ...new Set(products.map((p) => normalizeLevel(p.level))),
-].sort();
+// const levels = [
+//   "all",
+//   ...new Set(products.map((p) => normalizeLevel(p.level))),
+// ].sort();
   const clearFilters = () => {
     setSelectedCategory('all');
     setSelectedLevel('all');
@@ -96,12 +163,12 @@ const levels = [
     setSortBy('default');
   };
 
-  const toggleSection = (section) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
-  };
+  // const toggleSection = (section) => {
+  //   setExpandedSections(prev => ({
+  //     ...prev,
+  //     [section]: !prev[section]
+  //   }));
+  // };
 
   const activeFiltersCount = 
     (selectedCategory !== 'all' ? 1 : 0) + 
@@ -307,7 +374,7 @@ const levels = [
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard key={product._id} product={product} />
                 ))}
               </div>
             )}

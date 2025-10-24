@@ -13,6 +13,8 @@ import Checkout from './pages/Checkout';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import OrderDetail from './pages/OrderDetail';
+import AdminProducts from './pages/AdminProducts';
+import ProductForm from './pages/ProductForm';
 
 function App() {
   return (
@@ -40,6 +42,12 @@ function App() {
                 <OrderDetail />
               </ProtectedRoute>
             } />
+
+            <Route path="/admin/products" element={<ProtectedRoute >
+              <AdminProducts />
+            </ProtectedRoute> } />
+<Route path="/admin/products/new" element={<ProductForm mode="create" />} />
+<Route path="/admin/products/:id/edit" element={<ProductForm mode="edit" />} />
           </Routes>
         </Router>
       </CartProvider>

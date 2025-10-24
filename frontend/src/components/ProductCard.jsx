@@ -29,7 +29,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="group rounded-lg border border-primary-100 bg-white hover:border-primary-300 hover:shadow-xl transition-all duration-300 overflow-hidden">
-  <Link to={`/products/${product.id}`} className="block">
+  <Link to={`/products/${product._id}`} className="block">
     
     {/* Image */}
     <div className="relative aspect-w-1 aspect-h-1 w-full overflow-hidden bg-primary-50">
@@ -47,7 +47,7 @@ const ProductCard = ({ product }) => {
                   <iframe allowFullScreen="allowfullscreen" allow="clipboard-write" scrolling="no" className="fp-iframe" src={product.flipbook} style={{border: '1px solid lightgray', width: '100%', height: '400px'}}></iframe>
                 ) : (
                   <img
-                    src={product.image}
+                    src={product.images?.[0] || product.image}
                     alt={product.title}
                     loading='lazy'
                     className="w-full h-full object-contain object-center bg-primary-50 rounded-lg shadow-md"
