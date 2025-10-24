@@ -3,7 +3,7 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 
-import serverless from 'serverless-http';
+// import serverless from 'serverless-http';
 
 
 // Import configurations and routes
@@ -97,11 +97,11 @@ app.use((error, req, res, next) => {
 });
 
 // Start server
-// app.listen(PORT, () => {
+app.listen(PORT, () => {
   
-//     console.log(`Server is running in development mode on http://localhost:${PORT}`);
-// });
+    console.log(`Server is running in development mode on http://localhost:${PORT}`);
+});
 
-export default app;
-export const handler = serverless(app);
+// export default app;
+// export const handler = serverless(app);
 
