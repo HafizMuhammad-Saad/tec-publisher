@@ -5,9 +5,6 @@ import cloudinary from "../config/cloudinary.js";
 
 const router = express.Router();
 
-// ✅ 1. Use multer to store temporary uploads
-// const upload = multer({ dest: "tmp/" });
-
 // ✅ 2. Upload endpoint
 router.post("/", upload.single("file"), async (req, res) => {
   try {
