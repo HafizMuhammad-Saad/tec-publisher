@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { useEffect } from "react";
 // import { toast } from "react-hot-toast";
 
+const BASE_URL = import.meta.env.VITE_API_BASE;
+
 const ImageUpload = ({
   onImagesChange,
     initialImages = [], // 👈 new prop
@@ -74,7 +76,7 @@ const ImageUpload = ({
         formData.append("folder", "products");
 
         const { data } = await axios.post(
-          " /api/upload",
+          `${BASE_URL}/upload`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );

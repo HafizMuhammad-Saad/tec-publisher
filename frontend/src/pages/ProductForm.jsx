@@ -111,7 +111,7 @@ const ProductForm = ({ mode = "create" }) => {
         await axios.put(`${API_BASE}/products/${id}`, product);
         toast.success("Product updated successfully");
       } else {
-        await axios.post(" /api/products", product);
+        await axios.post(`${API_BASE}/products`, product);
         toast.success("Product added successfully");
       }
       navigate("/admin/products");
@@ -129,105 +129,122 @@ const ProductForm = ({ mode = "create" }) => {
           {mode === "edit" ? "Edit Product" : "Add New Product"}
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Basic Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Title</label>
-              <input
-                type="text"
-                name="title"
-                value={product.title}
-                onChange={handleChange}
-                className="mt-1 block w-full border rounded-md px-3 py-2"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Category</label>
-              <input
-                type="text"
-                name="category"
-                value={product.category}
-                onChange={handleChange}
-                className="mt-1 block w-full border rounded-md px-3 py-2"
-                placeholder="e.g. readers, workbook"
-                required
-              />
-            </div>
-          </div>
+       <form onSubmit={handleSubmit} className="space-y-6">
+  {/* Basic Info */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <label className="block text-sm font-medium text-gray-700">Title</label>
+      <input
+        type="text"
+        name="title"
+        value={product.title}
+        onChange={handleChange}
+        className="mt-1 block w-full border rounded-md px-3 py-2"
+        required
+      />
+    </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Age</label>
-              <input
-                type="text"
-                name="age"
-                value={product.age}
-                onChange={handleChange}
-                className="mt-1 block w-full border rounded-md px-3 py-2"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Level</label>
-              <input
-                type="text"
-                name="level"
-                value={product.level}
-                onChange={handleChange}
-                className="mt-1 block w-full border rounded-md px-3 py-2"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Price</label>
-              <input
-                type="number"
-                name="price"
-                value={product.price}
-                onChange={handleChange}
-                className="mt-1 block w-full border rounded-md px-3 py-2"
-                required
-              />
-            </div>
-          </div>
+    <div>
+      <label className="block text-sm font-medium text-gray-700">Category</label>
+      <input
+        type="text"
+        name="category"
+        value={product.category}
+        onChange={handleChange}
+        className="mt-1 block w-full border rounded-md px-3 py-2"
+        placeholder="e.g. readers, workbook"
+        required
+      />
+    </div>
+  </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Features / Description</label>
-            <textarea
-              name="features"
-              value={product.features}
-              onChange={handleChange}
-              className="mt-1 block w-full border rounded-md px-3 py-2 h-24"
-              placeholder="Write product highlights..."
-            />
-          </div>
+  {/* ISBN, Age, Level, Price */}
+  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div>
+      <label className="block text-sm font-medium text-gray-700">ISBN</label>
+      <input
+        type="text"
+        name="isbn"
+        value={product.isbn || ""}
+        onChange={handleChange}
+        className="mt-1 block w-full border rounded-md px-3 py-2"
+        placeholder="e.g. 9781234567890"
+      />
+    </div>
 
-          <ImageUpload
-            initialImages={product.images || []}
-  onImagesChange={(urls) =>
-    setProduct((prev) => ({ ...prev, images: urls }))
-  }
-/>
+    <div>
+      <label className="block text-sm font-medium text-gray-700">Age</label>
+      <input
+        type="text"
+        name="age"
+        value={product.age}
+        onChange={handleChange}
+        className="mt-1 block w-full border rounded-md px-3 py-2"
+      />
+    </div>
 
+    <div>
+      <label className="block text-sm font-medium text-gray-700">Level</label>
+      <input
+        type="text"
+        name="level"
+        value={product.level}
+        onChange={handleChange}
+        className="mt-1 block w-full border rounded-md px-3 py-2"
+      />
+    </div>
 
+    <div>
+      <label className="block text-sm font-medium text-gray-700">Price</label>
+      <input
+        type="number"
+        name="price"
+        value={product.price}
+        onChange={handleChange}
+        className="mt-1 block w-full border rounded-md px-3 py-2"
+        required
+      />
+    </div>
+  </div>
 
-          {/* Submit */}
-          <div className="flex justify-end space-x-3">
-            <button
-              type="button"
-              onClick={() => navigate("/admin/products")}
-              className="px-4 py-2 border rounded-md"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
-            >
-              {mode === "edit" ? "Update Product" : "Add Product"}
-            </button>
-          </div>
-        </form>
+  {/* Features */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700">Features / Description</label>
+    <textarea
+      name="features"
+      value={product.features}
+      onChange={handleChange}
+      className="mt-1 block w-full border rounded-md px-3 py-2 h-24"
+      placeholder="Write product highlights..."
+    />
+  </div>
+
+  {/* Images */}
+  <ImageUpload
+    initialImages={product.images || []}
+    onImagesChange={(urls) =>
+      setProduct((prev) => ({ ...prev, images: urls }))
+    }
+  />
+
+  {/* Submit */}
+  <div className="flex justify-end space-x-3">
+    <button
+      type="button"
+      onClick={() => navigate("/admin/products")}
+      className="px-4 py-2 border rounded-md"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
+    >
+      {mode === "edit" ? "Update Product" : "Add Product"}
+    </button>
+  </div>
+</form>
+
       </div>
     </div>
   );

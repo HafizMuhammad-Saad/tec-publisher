@@ -4,6 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import AdminHeader from "../components/AdminHeader";
 import { formatPrice } from "../utils/format";
+import Pagination from "../components/Pagination";
 
   const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -11,6 +12,8 @@ const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+const [page, setPage] = useState(1);
+const [totalPages, setTotalPages] = useState(1);
 
   const fetchProducts = async () => {
     try {
@@ -123,6 +126,15 @@ const AdminProducts = () => {
           )}
         </div>
       </div>
+
+      <Pagination
+  currentPage={page}
+  totalPages={totalPages}
+  onPageChange={(newPage) => {
+    setPage(newPage);
+    fetchProducts(newPage); // your existing fetch function
+  }}
+/>
     </div>
   );
 };
