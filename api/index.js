@@ -19,8 +19,10 @@ dotenv.config();
 const app = express();
 
 // CORS configuration
-  app.use(cors());
-
+app.use(cors({
+    origin: process.env.ORIGIN,
+    exposedHeaders: ['X-Total-Count'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH','DELETE', 'OPTIONS'],}));
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
 
