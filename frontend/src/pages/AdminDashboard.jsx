@@ -27,7 +27,7 @@ const AdminDashboard = () => {
       setLoading(true);
       const params = new URLSearchParams({
         page: currentPage,
-        limit: 10,
+        limit: 15,
         ...filters
       });
 

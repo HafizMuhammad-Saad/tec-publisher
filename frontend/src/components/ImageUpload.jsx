@@ -13,7 +13,7 @@ const ImageUpload = ({
   onImagesChange,
     initialImages = [], // 👈 new prop
 
-  maxImages = 10,
+  maxImages = 15,
   className,
   error,
   label = "Upload Images",

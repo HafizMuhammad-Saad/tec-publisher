@@ -36,10 +36,12 @@ const Home = () => {
   useEffect(() => {
     const loadFeatured = async () => {
       try {
-        const { data } = await axios.get(`${API_BASE}/products`);
+        const { data } = await axios.get(`${API_BASE}/products?category=books set&limit=5`);
+        console.log(data);
         
         
-        const sets = data.filter((p) => p.category === "books set");
+        const products = data.products;
+        const sets = products.filter((p) => p.category === "books set");
         console.log(sets);
         
         setFeaturedProducts(sets);

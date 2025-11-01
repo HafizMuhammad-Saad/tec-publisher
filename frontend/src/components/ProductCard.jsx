@@ -7,6 +7,12 @@ import { formatPrice, truncateText, formatRating } from '../utils/format';
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
 
+  // Function to ensure images are served in modern, compressed format
+const optimizeCloudinaryUrl = (url) => {
+    if (!url) return '';
+    // Inserts the transformation path 'f_auto,q_auto'
+    return url.replace('/upload/', '/upload/f_auto,q_auto/');
+};
 
   const getBadgeColor = (level) => {
     switch (level) {
@@ -47,7 +53,7 @@ const ProductCard = ({ product }) => {
                   <iframe allowFullScreen="allowfullscreen" allow="clipboard-write" scrolling="no" className="fp-iframe" src={product.flipbook} style={{border: '1px solid lightgray', width: '100%', height: '400px'}}></iframe>
                 ) : (
                   <img
-                    src={product.images?.[0] || product.image}
+                    src={optimizeCloudinaryUrl(product.images?.[0] || product.image)}
                     alt={product.title}
                     loading='lazy'
                     className="w-full h-full object-contain object-center bg-primary-50 rounded-lg shadow-md"

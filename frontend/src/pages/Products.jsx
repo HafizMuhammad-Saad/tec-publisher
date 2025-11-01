@@ -7,6 +7,7 @@ import { capitalizeFirst } from '../utils/format';
 import { normalizeLevel } from "../utils/normalize";
 import toast from "react-hot-toast";
 import axios from 'axios';
+import Pagination from '../components/Pagination';
 
   const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -17,14 +18,34 @@ const Products = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [sortBy, setSortBy] = useState('default');
+
+  const [totalProductsCount, setTotalProductsCount] = useState(0);
   const [expandedSections, setExpandedSections] = useState({
     categories: true,
     levels: true
   });
+   const [page, setPage] = useState(1);
+      const [totalPages, setTotalPages] = useState(1);
+  
+useEffect(() => {
+    // Set a timer (handler) to delay the update
+    const handler = setTimeout(() => {
+        // This runs 500ms after the last key stroke
+        setDebouncedSearchQuery(searchQuery);
+        // Crucial: Reset the page to 1 for any new search filter
+        setPage(1); 
+    }, 500); // 500ms delay
 
+    // Cleanup Function: If the user types again before 500ms, 
+    // the previous timer is cancelled (cleared) and a new one starts.
+    return () => {
+        clearTimeout(handler);
+    };
+}, [searchQuery]); // Dependency: Re-run this effect ONLY when 'searchQuery' changes
    // Normalize level to make filtering case-insensitive
   const normalizeLevel = (level) => level?.toLowerCase().replace(/\s+/g, "");
 
@@ -32,13 +53,28 @@ const Products = () => {
     const loadData = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`${API_BASE}/products`);
-        setProducts(data);
-        setFilteredProducts(data);
+       const params = new URLSearchParams();
+            params.append('page', page);
+            params.append('limit', 15);
+            params.append('search', debouncedSearchQuery || '');
+            params.append('sort', sortBy || 'default');
+            
+            if (selectedCategory !== 'all') {
+                params.append('category', selectedCategory);
+            }
+            if (selectedLevel !== 'all') {
+                params.append('level', normalizeLevel(selectedLevel));
+            }
 
-        // Extract unique categories dynamically
-        const uniqueCategories = [...new Set(data.map((p) => p.category))];
-        setCategories(uniqueCategories);
+            // 2. Make one API call with all parameters
+            const { data } = await axios.get(`${API_BASE}/products?${params.toString()}`);
+
+            setTotalProductsCount(data.total || 0);
+            // 3. Set the state directly from the backend's response
+            // We don't need a separate 'products' state anymore
+            setFilteredProducts(data.products || []); 
+            setTotalPages(data.totalPages || 1);
+            setPage(data.currentPage || 1);
       } catch (error) {
         console.error("Error loading products:", error);
         toast.error("Failed to load products");
@@ -48,46 +84,46 @@ const Products = () => {
     };
 
     loadData();
-  }, []);
+  }, [page, selectedCategory, selectedLevel, debouncedSearchQuery, sortBy]);
 
   // Filter + Sort logic
-  useEffect(() => {
-    let filtered = [...products];
+  // useEffect(() => {
+  //   let filtered = [...products];
 
-    if (selectedCategory !== "all") {
-      filtered = filtered.filter((p) => p.category === selectedCategory);
-    }
+  //   if (selectedCategory !== "all") {
+  //     filtered = filtered.filter((p) => p.category === selectedCategory);
+  //   }
 
-    if (selectedLevel !== "all") {
-      filtered = filtered.filter(
-        (p) => normalizeLevel(p.level) === normalizeLevel(selectedLevel)
-      );
-    }
+  //   if (selectedLevel !== "all") {
+  //     filtered = filtered.filter(
+  //       (p) => normalizeLevel(p.level) === normalizeLevel(selectedLevel)
+  //     );
+  //   }
 
-    if (searchQuery) {
-      filtered = filtered.filter(
-        (p) =>
-          p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p?.description?.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
+  //   if (searchQuery) {
+  //     filtered = filtered.filter(
+  //       (p) =>
+  //         p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //         p?.description?.toLowerCase().includes(searchQuery.toLowerCase())
+  //     );
+  //   }
 
-    switch (sortBy) {
-      case "price-low-high":
-        filtered.sort((a, b) => a.price - b.price);
-        break;
-      case "price-high-low":
-        filtered.sort((a, b) => b.price - a.price);
-        break;
-      case "name":
-        filtered.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      default:
-        break;
-    }
+  //   switch (sortBy) {
+  //     case "price-low-high":
+  //       filtered.sort((a, b) => a.price - b.price);
+  //       break;
+  //     case "price-high-low":
+  //       filtered.sort((a, b) => b.price - a.price);
+  //       break;
+  //     case "name":
+  //       filtered.sort((a, b) => a.title.localeCompare(b.title));
+  //       break;
+  //     default:
+  //       break;
+  //   }
 
-    setFilteredProducts(filtered);
-  }, [products, selectedCategory, selectedLevel, searchQuery, sortBy]);
+  //   setFilteredProducts(filtered);
+  // }, [products, selectedCategory, selectedLevel, searchQuery, sortBy]);
 
 
   // useEffect(() => {
@@ -346,7 +382,7 @@ const Products = () => {
             <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
               <div className="flex items-center justify-between">
                 <p className="text-gray-600">
-                  Showing {filteredProducts.length} of {products.length} products
+                  Showing {filteredProducts.length} of {totalProductsCount} products
                 </p>
                 <button
                   className="lg:hidden flex items-center text-sm text-gray-600 hover:text-gray-900"
@@ -384,6 +420,12 @@ const Products = () => {
           </main>
         </div>
       </div>
+       <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                 onPageChange={(newPage) => setPage(newPage)}
+
+            />
     </div>
   );
 };

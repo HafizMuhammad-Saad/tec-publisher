@@ -7,7 +7,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   for (let i = 1; i <= totalPages; i++) pages.push(i);
 
   return (
-    <div className="flex justify-center items-center space-x-2 mt-6">
+    <div className="flex justify-center items-center space-x-2 pb-6">
       {/* Previous */}
       <button
         onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
@@ -22,10 +22,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         <button
           key={num}
           onClick={() => onPageChange(num)}
-          className={`px-3 py-1 border rounded-md ${
+          className={`px-3 py-1 border rounded-md transition-all duration-200 ${
             currentPage === num
-              ? "bg-primary-600 text-white"
-              : "hover:bg-gray-100"
+              ? "bg-red-600 text-white border-red-600 hover:bg-red-700"
+              : "hover:bg-gray-100 text-gray-800"
           }`}
         >
           {num}

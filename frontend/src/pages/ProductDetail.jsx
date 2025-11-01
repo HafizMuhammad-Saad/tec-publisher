@@ -170,7 +170,7 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
@@ -248,11 +248,7 @@ const ProductDetail = () => {
 <div className="relative flex flex-col items-center">
   {/* Main Image Container */}
   <div className="relative w-full aspect-w-1 aspect-h-1">
-      {product?.isbn ? (
-        <span className='absolute sm:top-4 sm:left-60 text-lg text-blue-800 left-4 top-0'>ISBN: {product.isbn}</span>
-      ) : (
-        <span className='absolute top-4 text-lg left-60 text-blue-800'>ISBN: N/A</span>
-      )}
+     
     {/* ✅ CASE 1: Multiple images */}
     {product.images && product.images.length > 1 ? (
       <>
@@ -328,7 +324,13 @@ const ProductDetail = () => {
                 <span className="text-3xl font-bold text-primary-600">
                   {formatPrice(product.discountedPrice ? product.discountedPrice : product.price)}
                 </span>
+
               </div>
+                 {product?.isbn ? (
+        <span className=' text-lg text-blue-800'>ISBN: {product.isbn}</span>
+      ) : (
+        <span className=' text-lg text-blue-800'>ISBN: N/A</span>
+      )}
 
               {/* Description */}
               {/* <div className="mb-8">
